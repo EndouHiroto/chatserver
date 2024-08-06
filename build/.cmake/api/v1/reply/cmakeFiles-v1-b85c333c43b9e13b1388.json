@@ -777,8 +777,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/home/pdh/code/build",
-		"source" : "/home/pdh/code"
+		"build" : "/home/pdh/code/chatserver/build",
+		"source" : "/home/pdh/code/chatserver"
 	},
 	"version" : 
 	{

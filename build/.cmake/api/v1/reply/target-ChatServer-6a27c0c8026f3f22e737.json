@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/home/pdh/code/bin/ChatServer"
+			"path" : "/home/pdh/code/chatserver/bin/ChatServer"
 		}
 	],
 	"backtrace" : 1,
@@ -83,34 +83,34 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -g"
+					"fragment" : "-g"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 4,
-					"path" : "/home/pdh/code/include"
+					"path" : "/home/pdh/code/chatserver/include"
 				},
 				{
 					"backtrace" : 5,
-					"path" : "/home/pdh/code/include/server"
+					"path" : "/home/pdh/code/chatserver/include/server"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "/home/pdh/code/thirdparty"
+					"path" : "/home/pdh/code/chatserver/thirdparty"
 				},
 				{
 					"backtrace" : 7,
-					"path" : "/home/pdh/code/include/server/db"
+					"path" : "/home/pdh/code/chatserver/include/server/db"
 				},
 				{
 					"backtrace" : 8,
-					"path" : "/home/pdh/code/include/server/model"
+					"path" : "/home/pdh/code/chatserver/include/server/model"
 				},
 				{
 					"backtrace" : 9,
-					"path" : "/home/pdh/code/include/server/redis"
+					"path" : "/home/pdh/code/chatserver/include/server/redis"
 				}
 			],
 			"language" : "CXX",
@@ -134,7 +134,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-g -g",
+				"fragment" : "-g",
 				"role" : "flags"
 			},
 			{
