@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//User表的ORM类
+//Group表的ORM类
 class Group
 {
 public:

@@ -4,7 +4,7 @@
 //添加好友关系
 void FriendModel::insert(int userid,int friendid)
 {
-    //1、组装sql语句
+    //组装sql语句
     char sql[1024] = {0};
     sprintf(sql,"insert into Friend values(%d,%d)",userid,friendid);
 
@@ -18,7 +18,7 @@ void FriendModel::insert(int userid,int friendid)
 //返回用户好友列表
 vector<User> FriendModel::query(int userid)
 {
-    //1、组装sql语句
+    //组装sql语句
     char sql[1024] = {0};
     sprintf(sql,"select a.id,a.name,a.state from User a inner join Friend b on b.friendid = a.id where b.userid = %d",userid);
 

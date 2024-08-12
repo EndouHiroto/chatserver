@@ -27,15 +27,15 @@ bool MySQL::connect()
 
     if(p != nullptr)
     {
-        //c和c++代码默认的编码字符是ASCII，如果不设置，从MySQL上拉下来的中文显示为?
-        mysql_query(_conn,"set names gbk");
+        //c和c++代码默认的编码字符是ASCII，如果不设置，从MySQL上拉下来的中文显示为?,这里utf8mb4能处理几乎所有字符
+        mysql_query(_conn,"set names utf8mb4");
         LOG_INFO << "connect mysql success!";
     }
     else
     {
         LOG_INFO << "connect mysql fail!";
     }
-    return p;
+    return p != nullptr;
 }
 //更新操作
 bool MySQL::update(string sql)

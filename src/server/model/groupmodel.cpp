@@ -4,7 +4,7 @@
 //创建群组
 bool GroupModel::createGroup(Group &group)
 {
-    //1、组装sql语句
+    //组装sql语句
     char sql[1024] = {0};
     sprintf(sql,"insert into AllGroup(groupname,groupdesc) values('%s','%s')",group.getName().c_str(),group.getDesc().c_str());
 
@@ -23,7 +23,7 @@ bool GroupModel::createGroup(Group &group)
 //加入群组
 void GroupModel::addGroup(int userid,int groupid,string role)
 {
-    //1、组装sql语句
+    //组装sql语句
     char sql[1024] = {0};
     sprintf(sql,"insert into GroupUser values(%d,%d,'%s')",groupid,userid,role.c_str());
 

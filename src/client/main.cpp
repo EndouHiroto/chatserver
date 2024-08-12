@@ -70,7 +70,7 @@ int main(int argc,char **argv)
 
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
-    server.sin_addr.s_addr = inet_addr(ip);
+    server.sin_addr.s_addr = inet_addr(ip);//不支持 IPv6 地址,inet_pton函数均支持
 
     //client和server进行连接
     if(connect(clientfd,(sockaddr *)&server,sizeof(sockaddr_in)) == -1)
@@ -153,7 +153,7 @@ int main(int argc,char **argv)
                 js["password"] = pwd;
                 string request = js.dump(); //把json数据对象序列化成字符串
 
-                int len = send(clientfd,request.c_str(),strlen(request.c_str()) + 1,0);
+                int len = send(clientfd,request.c_str(),strlen(request.c_str()) + 1,0);//这里的 +1 是为了考虑字符串的结束符 \0
                 if(len == -1)
                 {
                     cerr << "send reg msg error:" << request << endl;
@@ -212,7 +212,7 @@ void help(int fd = 0,string str = "");
 //"chat" command handler
 void chat(int,string);
 
-//"addfriend" comand handler
+//"addfriend" command handler
 void addfriend(int,string);
 
 //"creategroup" command handler
@@ -485,7 +485,7 @@ void chat(int clientfd,string str)
     }
 }
 
-//"addfriend" comand handler
+//"addfriend" command handler
 void addfriend(int clientfd,string str)
 {
     int friendid = atoi(str.c_str());
@@ -576,7 +576,7 @@ void groupchat(int clientfd,string str)
 }
 
 //"loginout" command handler
-void loginout(int clientfd,string str)
+void loginout(int clientfd,string)
 {
     json js;
     js["msgid"] = LOGIN_OUT_MSG;

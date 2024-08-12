@@ -31,6 +31,9 @@ public:
     //处理登录业务
     void login(const TcpConnectionPtr &conn,json &js,Timestamp time);
 
+    //处理注销业务
+    void loginout(const TcpConnectionPtr &conn,json &js,Timestamp time);
+
     //处理注册业务
     void reg(const TcpConnectionPtr &conn,json &js,Timestamp time);
 
@@ -48,9 +51,6 @@ public:
 
     //群组聊天业务
     void groupChat(const TcpConnectionPtr &conn,json &js,Timestamp time);
-
-    //处理注销业务
-    void loginout(const TcpConnectionPtr &conn,json &js,Timestamp time);
 
     //处理客户端异常退出
     void clientCloseException(const TcpConnectionPtr &conn);
