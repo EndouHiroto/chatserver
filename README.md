@@ -23,28 +23,37 @@
   - onMessage则是根据不同的json消息中的msgid字段，来在业务层调用不同的回调函数来处理请求。
   
   ### 2.业务模块  
-  基于单例模式设计一个负责处理业务的ChatService类，成员：所有的数据库操作类的对象，一个用来映射msgid到回调函数的map，一个互斥锁保证map的访问安全，还有一个存储在线用户的通信连接的map，redis的操作对象。然后所有的业务处理函数都在构造函数中注册到了对应的map上。
-
-下载地址:https://pan.baidu.com/s/1yPl1aNGuC7OVabs5icw1Ag?pwd=92xe 提取码: 92xe
-```
-1、下载zookeeper-3.4.10.tar.gz解压后进入zookeeper-3.4.10
-2. cd zookeeper-3.4.10/conf
-3. mv zoo_sample.cfg zoo.cfg
-4. 进入bin目录，启动zkServer， ./zkServer.sh start
-5. 可以通过netstat查看zkServer的端口，在bin目录启动zkClient.sh链接zkServer，熟悉zookeeper怎么组织节点
-```
-- **zk的原生开发API（c/c++接口）**
-
-进入上面解压目录src/c下面，zookeeper已经提供了原生的C/C++和Java API开发接口，需要通过源码编译生成，过程如下：
-```
-~/package/zookeeper-3.4.10/src/c$ sudo ./confifigure
-~/package/zookeeper-3.4.10/src/c$ sudo make
-~/package/zookeeper-3.4.10/src/c$ sudo make install
-```
-主要关注zookeeper怎么管理节点，zk-c API怎么创建节点，获取节点，删除节点以及watcher机制的API编程。
-- zk客户端常用命令
-  
-  ``ls、get、create、set、delete``
+  基于单例模式设计一个负责处理业务的ChatService类，成员：所有的数据库操作类的对象，一个用来映射msgid到回调函数的map，一个互斥锁保证map的访问安全，还有一个存储在线用户的通信连接的map，redis的操作对象。然后所有的业务处理函数都在构造函数中注册到了对应的map上。  
+  #### 2-1.登录  
+  - 首先判断是否已经登陆，如已经登陆则返回错误提示信息  
+  - 登陆成功，记录用户的连接信息，更新用户的状态  
+  - 向redis订阅channel(id)  
+  - 将离线消息封装到json消息中，然后调用offlinemessageModel中的remove方法删除读过的离线消息  
+  - 显示好友列表：通过friendModel中的query方法，通过用户id查找所有的好友id，返回对应的好友user对象  
+  - 显示群组列表：同显示好友列表，通过groupuserModel中的query方法，返回这个用户所在的所有群组的信息  
+  - 登陆失败，提示错误信息（用户不存在或密码错误）  
+  #### 2-2.注册  
+  - 根据json中的相关信息，新建一个user对象，调用userModel中的insert方法插入到数据库中  
+  #### 2-3.注销  
+  - 加锁，删掉userConnMap中的对应的id的TCP连接信息  
+  - 调用userModel中的updateState更新用户的状态信息  
+  #### 2-4.客户端异常退出  
+  - 加锁，删掉对应的连接信息  
+  - 取消redis的订阅通道  
+  - 更新当时客户端登陆的用户的状态信息
+  #### 2-5.添加好友  
+  - 解析json中的字段，调用friendModel的insert方法
+  #### 2-6.创建群组  
+  - 调用groupModel中的createGroup和addGroup方法，创建群，然后将当前创建人的权限改为创建者
+  #### 2-7.添加群组  
+  - 同理
+  #### 2-8.好友聊天  
+  - 查询对方id是否在线（首先在本服务器中的userConnMap中查，如在，则将请求的json消息推给该用户即可；如果不在，需要在数据库中查是否在线，如果在线则在redis中发布对方id的channel， 推送消息）  
+  - 如果不在线，直接存为离线消息
+  #### 2-9.群组聊天  
+  - 类似好友聊天，区别在于需要获取当前群id的所有user，然后根据他们在线与否，选择直接推送还是存为离线消息。（当不在本机找不到时，通过redis推送）
+  #### 2-10.从redis中获取订阅消息  
+  - 订阅的channel有消息了，查看对应id的TCP连接，然后通过绑定的回调函数处理(service直接把Json推送到对应的客户端)  
 
 ## 四. 项目目录结构
 ```
