@@ -17,13 +17,13 @@
 ## 三. 模块设计  
 采用分层的设计思想，分为网络I/O模块、业务模块、数据库模块  
   ### 1.网络I/O模块
-- 基于muduo库采用的网络并发模型为one loop per thread，即通过一个main reactor来负责accept连接，然后该连接的I/O事件，计算任务等都在sub reactor中完成。多个连接可能被分派到多个线程中，来充分利用CPU。  
-利用muduo库写网络模块的代码非常简洁，只需要在定义的ChatServer中定义muduo的TcpServer和EventLoop，然后注册好onConnection和onMessage两个回调，就可以很方便的起一个服务。  
-onConnection是建立连接。  
-onMessage则是根据不同的json消息中的msgid字段，来在业务层调用不同的回调函数来处理请求。
+  - 基于muduo库采用的网络并发模型为one loop per thread，即通过一个main reactor来负责accept连接，然后该连接的I/O事件，计算任务等都在sub reactor中完成。多个连接可能被分派到多个线程中，来充分利用CPU。  
+  - 利用muduo库写网络模块的代码非常简洁，只需要在定义的ChatServer中定义muduo的TcpServer和EventLoop，然后注册好onConnection和onMessage两个回调，就可以很方便的起一个服务。  
+  - onConnection是建立连接。  
+  - onMessage则是根据不同的json消息中的msgid字段，来在业务层调用不同的回调函数来处理请求。
   
   ### 2.业务模块  
-基于单例模式设计一个负责处理业务的ChatService类，成员：所有的数据库操作类的对象，一个用来映射msgid到回调函数的map，一个互斥锁保证map的访问安全，还有一个存储在线用户的通信连接的map，redis的操作对象。然后所有的业务处理函数都在构造函数中注册到了对应的map上。
+  基于单例模式设计一个负责处理业务的ChatService类，成员：所有的数据库操作类的对象，一个用来映射msgid到回调函数的map，一个互斥锁保证map的访问安全，还有一个存储在线用户的通信连接的map，redis的操作对象。然后所有的业务处理函数都在构造函数中注册到了对应的map上。
 
 下载地址:https://pan.baidu.com/s/1yPl1aNGuC7OVabs5icw1Ag?pwd=92xe 提取码: 92xe
 ```
