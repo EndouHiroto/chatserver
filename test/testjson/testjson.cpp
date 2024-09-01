@@ -1,11 +1,10 @@
 #include "json.hpp"
-using json = nlohmann::json;
-
 #include<iostream>
 #include<vector>
 #include<map>
 #include<string>
 using namespace std;
+using json = nlohmann::json;
 
 //json序列化示例1
 void func1()
