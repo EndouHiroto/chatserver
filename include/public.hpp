@@ -2,7 +2,7 @@
 #define PUBLIC_H
 
 /*
-server和client的公共文件
+    server和client的公共文件
 */
 
 enum EnMsgType
