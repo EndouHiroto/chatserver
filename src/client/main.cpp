@@ -13,8 +13,8 @@ using json = nlohmann::json;
 #include<sys/types.h>
 #include<netinet/in.h>
 #include<arpa/inet.h>
-#include<semaphore.h>
-#include<atomic>
+#include<semaphore.h>   //linux信号量
+#include<atomic>    //c++11里的原子变量
 
 #include "group.hpp"
 #include "user.hpp"
